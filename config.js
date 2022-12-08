@@ -7,7 +7,7 @@ let connection;
 async function connectDb(req,res,next){
     try {
         connection = await mongoClient.connect(process.env.DB);
-        db = await connection.db("Reset")
+        db = await connection.db("Reset");
         return db
     } catch (error) {
         console.log(error)
