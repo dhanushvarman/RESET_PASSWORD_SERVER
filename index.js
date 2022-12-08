@@ -34,7 +34,7 @@ app.post("/forgot-password", async (req, res, next) => {
             let randomString = (Math.random() + 1).toString(36).substring(7);
             await db.collection("users").updateOne({_id : mongodb.ObjectId(user._id)},{$set : {random : randomString}});
             const token = jwt.sign({ _id: user._id, email: user.email}, process.env.JWT_SECRET, { expiresIn: "15m" });
-            const link = `https://reset-password-server.vercel.app/verification/${user._id}/${token}`;
+            const link = `https://password-reset-xi.vercel.app/verification/${user._id}/${token}`;
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
