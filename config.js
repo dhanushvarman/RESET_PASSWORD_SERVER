@@ -8,7 +8,7 @@ async function connectDb(req,res,next){
 
     try {
         connection = await mongoClient.connect(process.env.DB);
-        db = await connection.db("Password_reset");
+        db = await connection.db("Reset");
         return db
 
     } catch (error) {

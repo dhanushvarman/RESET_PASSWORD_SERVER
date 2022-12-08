@@ -7,13 +7,23 @@ const app = express();
 var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
-const { connectDb } = require("./config")
+const { connectDb, db } = require("./config")
 
 app.use(cors({
     origin: "*",
 }))
 
 app.use(express.json());
+
+// app.post("/create", async (req, res, next)=>{
+//     try {
+//         const db = await connectDb();
+//         await db.collection("users").insertOne(req.body)
+//         res.json({message : "created"})
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })
 
 app.post("/forgot-password", async (req, res, next) => {
 
