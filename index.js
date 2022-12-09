@@ -20,6 +20,8 @@ app.post("/create", async(req,res,next)=>{
     try {
         const db = await connectDb();
         await db.collection("users").insertOne(req.body);
+
+        res.json({message : "User Created"})
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: "Something Went Wrong in Creating User" })
