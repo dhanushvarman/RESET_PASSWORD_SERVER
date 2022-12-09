@@ -15,6 +15,17 @@ app.use(cors({
 
 app.use(express.json());
 
+app.post("/create", async(req,res,next)=>{
+
+    try {
+        const db = await connectDb();
+        await db.collection("users").insertOne(req.body);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something Went Wrong in Creating User" })
+    }
+})
+
 app.post("/forgot-password", async (req, res, next) => {
 
     try {
