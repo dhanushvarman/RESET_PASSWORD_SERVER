@@ -15,16 +15,6 @@ app.use(cors({
 
 app.use(express.json());
 
-// app.post("/create", async (req, res, next)=>{
-//     try {
-//         const db = await connectDb();
-//         await db.collection("users").insertOne(req.body)
-//         res.json({message : "created"})
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
-
 app.post("/forgot-password", async (req, res, next) => {
 
     try {
@@ -32,7 +22,7 @@ app.post("/forgot-password", async (req, res, next) => {
         const user = await db.collection("users").findOne({ email: req.body.email })
         if (user) {
             const token = jwt.sign({ _id: user._id, email: user.email}, process.env.JWT_SECRET, { expiresIn: "15m" });
-            const link = `https://password-reset-xi.vercel.app/verification/${user._id}/${token}`;
+            const link = `https://password-reset-delta.vercel.app/verification/${user._id}/${token}`;
             let randomString = (Math.random() + 1).toString(36).substring(7);
             await db.collection("users").updateOne({_id : user._id},{$set : {random : randomString}});
             var transporter = nodemailer.createTransport({
