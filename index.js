@@ -31,10 +31,10 @@ app.post("/forgot-password", async (req, res, next) => {
         const db = await connectDb();
         const user = await db.collection("users").findOne({ email: req.body.email })
         if (user) {
-            let randomString = (Math.random() + 1).toString(36).substring(7);
-            await db.collection("users").updateOne({_id : mongodb.ObjectId(user._id)},{$set : {random : randomString}});
             const token = jwt.sign({ _id: user._id, email: user.email}, process.env.JWT_SECRET, { expiresIn: "15m" });
             const link = `https://password-reset-xi.vercel.app/verification/${user._id}/${token}`;
+            let randomString = (Math.random() + 1).toString(36).substring(7);
+            await db.collection("users").updateOne({_id : user._id},{$set : {random : randomString}});
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -72,7 +72,8 @@ app.get("/:id", async (req,res,next)=>{
 
     try {
         const db = await connectDb();
-        const user = await db.collection("users").findOne({_id : mongodb.ObjectId(req.params.id)});
+        const Id = (req.params.id).trim();
+        const user = await db.collection("users").findOne({_id : mongodb.ObjectId(Id)});
         if(user){
             res.json(user)
         } else {
